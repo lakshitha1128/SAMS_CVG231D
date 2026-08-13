@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Student roster supplied by the admin staff (see Figure 1 of the
+    CS402.3 coursework spec). The coursework figure shows a bare
+    "<15>" batch tag; XML element names cannot start with a digit, so
+    here the batch id is expressed as an attribute instead:
+    <batch id="2016.1"> ... </batch>, which carries the same
+    information while remaining valid XML.
+
+    Rows below match the six students appearing on the BSc (Hons) in
+    Software Engineering - 2016.1 "CGV" signing sheets.
+-->
+<nsbm>
+    <students>
+        <batches>
+            <batch id="2016.1">
+                <student>
+                    <index>10000409</index>
+                    <name>M S Dilshanika Perera</name>
+                </student>
+                <student>
+                    <index>10009301</index>
+                    <name>C W M A Shehan Abeyrathne</name>
+                </student>
+                <student>
+                    <index>10009302</index>
+                    <name>B A K M Chithrananda</name>
+                </student>
+                <student>
+                    <index>10009303</index>
+                    <name>W Shashini Minosha De Silva</name>
+                </student>
+                <student>
+                    <index>10009304</index>
+                    <name>K L Udara Maduranga Liyanage</name>
+                </student>
+                <student>
+                    <index>10009306</index>
+                    <name>Hansa Anuradha Wickramanayake</name>
+                </student>
+            </batch>
+        </batches>
+    </students>
+</nsbm>

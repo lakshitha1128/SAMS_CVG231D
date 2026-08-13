@@ -1,0 +1,15 @@
+__pycache__/
+*.pyc
+.pytest_cache/
+.venv/
+venv/
+*.egg-info/
+
+# Generated at runtime - reproducible by running sams.py / infovis.py
+data/sams.db
+data/processed/*
+data/signatures/*
+
+# Keep the input signing-sheet photos and folder placeholders
+!data/processed/.gitkeep
+!data/signatures/.gitkeep
