@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 """SAMS - attendance visualization.
 
-Shows a summary report of a given student's attendance record.
+Shows a summary chart of a given student's attendance record.
 
 Usage:
     python infovis.py <student_index>
@@ -16,6 +16,7 @@ import sys
 
 from sams_core.config import DEFAULT_CONFIG
 from sams_core.database import AttendanceDatabase
+from sams_core.visualization.charts import AttendanceChartBuilder, save_figure, show_figure
 from sams_core.visualization.report import AttendanceReportBuilder, StudentNotFoundError
 
 
@@ -41,6 +42,15 @@ def main(argv: list[str]) -> int:
     print(f"Absent        : {summary.absent_count}")
     print(f"Attendance %  : {summary.attendance_percentage:.1f}%")
 
+    fig = AttendanceChartBuilder().build_figure(summary)
+
+    out_dir = DEFAULT_CONFIG.processed_dir / "reports"
+    out_dir.mkdir(parents=True, exist_ok=True)
+    out_path = out_dir / f"attendance_{student_index}.png"
+    save_figure(fig, out_path)
+    print(f"Saved chart   : {out_path}")
+
+    show_figure(fig)
     return 0
 
 
