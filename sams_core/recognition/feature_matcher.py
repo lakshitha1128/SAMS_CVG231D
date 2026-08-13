@@ -37,3 +37,35 @@ class OrbSignatureMatcher:
             nfeatures=n_features, edgeThreshold=edge_threshold, patchSize=edge_threshold
         )
         self._matcher = cv2.BFMatcher(cv2.NORM_HAMMING)
+
+   @staticmethod
+    def _to_gray(image: np.ndarray) -> np.ndarray:
+        if image.ndim == 3:
+            return cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+        return image
+
+    def compare(self, image_a: np.ndarray, image_b: np.ndarray) -> MatchResult:
+        gray_a = self._to_gray(image_a)
+        gray_b = self._to_gray(image_b)
+
+        kp_a, des_a = self._orb.detectAndCompute(gray_a, None)
+        kp_b, des_b = self._orb.detectAndCompute(gray_b, None)
+
+        if des_a is None or des_b is None or len(kp_a) == 0 or len(kp_b) == 0:
+            return MatchResult(similarity=0.0, good_matches=0, keypoints_a=len(kp_a or []), keypoints_b=len(kp_b or []))
+
+        raw_matches = self._matcher.knnMatch(des_a, des_b, k=2)
+        good = [
+            m for m, n in (pair for pair in raw_matches if len(pair) == 2)
+            if m.distance < self.ratio_threshold * n.distance
+        ]
+
+        smaller_keypoint_count = max(min(len(kp_a), len(kp_b)), 1)
+        similarity = min(len(good) / smaller_keypoint_count, 1.0)
+
+        return MatchResult(
+            similarity=similarity,
+            good_matches=len(good),
+            keypoints_a=len(kp_a),
+            keypoints_b=len(kp_b),
+        )
